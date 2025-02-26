@@ -36,11 +36,14 @@ steps:
 
 # 🔨 Construcción de la imagen Docker
 - script: |
-    echo "🛠 Construyendo imagen Docker..."
-    docker build -t $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE) .
+    echo "🐳 Construyendo imagen Docker..."
+    docker build \
+      --build-arg PIP_INDEX_URL=$(PIP_INDEX_URL) \
+      -t $(JFROG_REGISTRY)/$(JFROG_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE) .
     docker tag $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE) $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE)
+  displayName: "🚀 Construir Imagen Docker"
 
-  displayName: "Construcción de la imagen Docker"
+
 
 # 📤 Subir la imagen a Artifactory
 - script: |
