@@ -26,8 +26,7 @@ steps:
 # 🔨 Construcción de la imagen Docker
 - script: |
     export PIP_INDEX_URL=" https://milton:bc1234@@t1234A@devopsm.jfrog.io/artifactory/api/pypi/pypi-local/simple"
-    docker buildx build \
-       --progress=plain \
+    docker  build \
        --build-arg "PIP_INDEX_URL=$PIP_INDEX_URL" \
        -t "$(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAG)" .
     docker tag $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE) $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE)
