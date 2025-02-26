@@ -26,7 +26,7 @@ steps:
     echo "🐳 Construyendo imagen Docker..."
     docker build \
       --build-arg PIP_INDEX_URL=$(PIP_INDEX_URL) \
-      -t $(JFROG_REGISTRY)/$(JFROG_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE) .
+      -t $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE) .
     docker tag $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE) $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE)
   displayName: "🚀 Construir Imagen Docker"
 
