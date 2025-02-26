@@ -21,17 +21,11 @@ steps:
 
     echo "📥 Instalando dependencias desde Artifactory..."
     pip install --upgrade pip
-    pip install --extra-index-url $(JFROG_PYPI_URL) -r requirements.txt
+    pip install --extra-index-url $(ARTIFACTORY_URL) -r requirements.txt
   displayName: "Instalar dependencias desde Artifactory"
   
 # 🔹 Configurar Python e instalar dependencias desde Artifactory
-- script: |
-    echo "🐍 Configurando Python..."
-    python3 -m venv venv
-    source venv/bin/activate
-    echo "📥 Instalando dependencias desde Artifactory..."
-    pip install --extra-index-url $(ARTIFACTORY_URL) -r requirements.txt
-  displayName: "Instalar dependencias desde Artifactory"
+
 
 # 🔐 Login en JFrog Artifactory para Docker
 - task: Docker@2
