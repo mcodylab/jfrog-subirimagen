@@ -8,6 +8,22 @@ variables:
 - group: varcody  # Grupo de variables con credenciales de JFrog
 
 steps:
+
+- script: |
+    echo "🐍 Instalando Python y herramientas necesarias..."
+    sudo apt-get update && sudo apt-get install -y python3 python3-venv python3-pip
+
+    echo "📂 Creando entorno virtual..."
+    python3 -m venv venv
+
+    echo "🔄 Activando entorno virtual..."
+    source venv/bin/activate
+
+    echo "📥 Instalando dependencias desde Artifactory..."
+    pip install --upgrade pip
+    pip install --extra-index-url $(JFROG_PYPI_URL) -r requirements.txt
+  displayName: "Instalar dependencias desde Artifactory"
+  
 # 🔹 Configurar Python e instalar dependencias desde Artifactory
 - script: |
     echo "🐍 Configurando Python..."
