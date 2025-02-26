@@ -1,0 +1,44 @@
+trigger:
+- main  # Se ejecuta cuando hay cambios en la rama principal
+
+pool:
+  name: "Agent"  # Nombre del agente autohospedado
+
+variables:
+- group: varcody  # Grupo de variables con credenciales de JFrog
+
+steps:
+# 🔹 Configurar Python e instalar dependencias desde Artifactory
+- script: |
+    echo "🐍 Configurando Python..."
+    python3 -m venv venv
+    source venv/bin/activate
+    echo "📥 Instalando dependencias desde Artifactory..."
+    pip install --extra-index-url $(JFROG_PYPI_URL) -r requirements.txt
+  displayName: "Instalar dependencias desde Artifactory"
+
+# 🔐 Login en JFrog Artifactory para Docker
+- task: Docker@2
+  displayName: 'Login en JFrog Artifactory'
+  inputs:
+    containerRegistry: '$(ARTIFACTORY_CR)
+    command: 'login'
+
+# 🔨 Construcción de la imagen Docker
+- script: |
+    echo "🛠 Construyendo imagen Docker..."
+    docker build -t $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAG) .
+  displayName: "Construcción de la imagen Docker"
+
+# 📤 Subir la imagen a Artifactory
+- script: |
+    echo "📤 Subiendo imagen a Artifactory..."
+    docker push $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAG)
+  displayName: "Subir imagen a Artifactory"
+
+# 🧹 Opcional: Limpiar imágenes locales para liberar espacio
+- script: |
+    echo "🧹 Limpiando imágenes locales..."
+    docker image prune -f
+  displayName: "Limpieza de imágenes locales"
+  condition: succeeded()
