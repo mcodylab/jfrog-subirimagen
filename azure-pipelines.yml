@@ -21,6 +21,15 @@ steps:
     containerRegistry: $(ARTIFACTORY_CR)
     command: 'login'
 
+- script: |
+    echo "🔧 Instalando Buildx..."
+    mkdir -p ~/.docker/cli-plugins
+    curl -sL https://github.com/docker/buildx/releases/latest/download/buildx-linux-amd64 \
+      -o ~/.docker/cli-plugins/docker-buildx
+    chmod +x ~/.docker/cli-plugins/docker-buildx
+    docker buildx version
+  displayName: "🔧 Instalar Buildx"
+  
 # 🔨 Construcción de la imagen Docker
 - script: |
     export DOCKER_BUILDKIT=1
