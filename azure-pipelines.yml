@@ -49,7 +49,7 @@ steps:
   displayName: "Subir imagen a Artifactory"
 
 - script: |
-    echo "Imagen publicada: $(ARTIFACTORY_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAG)"
+    echo "Imagen publicada: $(ARTIFACTORY_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE)"
   displayName: 'Mostrar URL de la imagen'
 
 # 🧹 Opcional: Limpiar imágenes locales para liberar espacio
