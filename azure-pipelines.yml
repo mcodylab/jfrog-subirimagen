@@ -37,14 +37,20 @@ steps:
 # 🔨 Construcción de la imagen Docker
 - script: |
     echo "🛠 Construyendo imagen Docker..."
-    docker build -t $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAG) .
+    docker build -t $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE) .
+    docker tag $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE) $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE)
+
   displayName: "Construcción de la imagen Docker"
 
 # 📤 Subir la imagen a Artifactory
 - script: |
     echo "📤 Subiendo imagen a Artifactory..."
-    docker push $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAG)
+    docker push $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE)
   displayName: "Subir imagen a Artifactory"
+
+- script: |
+    echo "Imagen publicada: $(ARTIFACTORY_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAG)"
+  displayName: 'Mostrar URL de la imagen'
 
 # 🧹 Opcional: Limpiar imágenes locales para liberar espacio
 - script: |
