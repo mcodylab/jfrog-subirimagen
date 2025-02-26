@@ -21,7 +21,7 @@ steps:
 - task: Docker@2
   displayName: 'Login en JFrog Artifactory'
   inputs:
-    containerRegistry: '$(ARTIFACTORY_CR)
+    containerRegistry: $(ARTIFACTORY_CR)
     command: 'login'
 
 # 🔨 Construcción de la imagen Docker
