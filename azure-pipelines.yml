@@ -23,11 +23,7 @@ steps:
 
 # 🔨 Construcción de la imagen Docker
 - script: |
-    echo "🐳 Construyendo imagen Docker..."
-      echo "JFROG_URL: $(JFROG_URL)"
-    echo "DOCKER_REPOSITORY: $(DOCKER_REPOSITORY)"
-    echo "IMAGE_NAME: $(IMAGE_NAME)"
-    echo "IMAGE_TAG: $(IMAGE_TAG)"
+    export DOCKER_BUILDKIT=1
     docker build  --build-arg PIP_INDEX_URL=$(PIP_INDEX_URL) -t $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE) .
     docker tag $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE) $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE)
   displayName: "🚀 Construir Imagen Docker"
