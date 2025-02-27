@@ -21,7 +21,9 @@ steps:
     containerRegistry: $(ARTIFACTORY_CR)
     command: 'login'
 
-
+- script: |
+    echo "PIP_INDEX_URL = $(PIP_INDEX_URL)"
+  displayName: 'Debug: Mostrar PIP_INDEX_URL'
   
 # 🔨 Construcción de la imagen Docker
 - script: |
