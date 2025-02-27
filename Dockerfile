@@ -26,4 +26,4 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 COPY . .
 
 # Comando de inicio
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python", "app.py"]
