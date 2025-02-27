@@ -1,22 +1,20 @@
-FROM python:3.9-slim
+# Primera etapa: Builder con todas las dependencias
+FROM python:3.10 AS builder
+WORKDIR /app
+COPY requirements.txt .
+RUN python -m pip install --upgrade pip && \
+    pip install --no-cache-dir --index-url "$PIP_INDEX_URL" -r requirements.txt
 
+# Segunda etapa: Imagen final más liviana
+FROM python:3.10-slim AS final
 WORKDIR /app
 
-ARG PIP_INDEX_URL
-ENV PIP_INDEX_URL=${PIP_INDEX_URL}
+# Copia solo las dependencias ya instaladas del builder
+COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
 
-# Configurar pip.conf dentro del contenedor
-RUN mkdir -p /root/.pip && \
-    echo "[global]\nindex-url = ${PIP_INDEX_URL}" > /root/.pip/pip.conf && \
-    cat /root/.pip/pip.conf  # <-- Verifica que la URL realmente está bien
-
-# Copiar dependencias
-COPY requirements.txt .
-
-# Instalar dependencias con depuración
-RUN python -m pip install --upgrade pip && \
-    pip install --verbose --no-cache-dir -r requirements.txt  # <-- Agrega --verbose
-
+# Copia el código fuente
 COPY . .
 
-CMD ["python", "app.py"]
+# Comando de inicio
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
