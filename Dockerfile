@@ -1,12 +1,13 @@
+
+
+# Primera etapa: Builder con todas las dependencias
+FROM python:3.10 AS builder
 # Definir la variable como un argumento de build
 ARG PIP_INDEX_URL
 
 # Hacer que esté disponible en el entorno
 ENV PIP_INDEX_URL=${PIP_INDEX_URL}
 
-
-# Primera etapa: Builder con todas las dependencias
-FROM python:3.10 AS builder
 WORKDIR /app
 COPY requirements.txt .
 RUN echo "Usando PIP_INDEX_URL: $PIP_INDEX_URL"
