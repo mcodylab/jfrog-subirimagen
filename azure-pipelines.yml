@@ -29,10 +29,11 @@ steps:
 - script: |
     export PIP_INDEX_URL=$(ARTIFACTORY_URL)
     
+    docker tag $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE) $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE)
     docker  build \
        --build-arg "PIP_INDEX_URL=$(ARTIFACTORY_URL)" \
        -t "$(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE)" .
-    docker tag $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE) $(JFROG_URL)/$(DOCKER_REPOSITORY)/$(IMAGE_NAME):$(IMAGE_TAGE)
+    
   displayName: "🚀 Construir Imagen Docker"
 
 
